@@ -1,19 +1,30 @@
+
 {
   "version": 2,
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/frontend/index.html" },
-    { "source": "/style.css", "destination": "/frontend/style.css" },
-    { "source": "/script.js", "destination": "/frontend/script.js" },
-    { "source": "/data/:path*", "destination": "/data/:path*" }
+    {
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/style.css",
+      "destination": "/frontend/style.css"
+    },
+    {
+      "source": "/script.js",
+      "destination": "/frontend/script.js"
+    }
   ],
   "headers": [
     {
       "source": "/data/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
       ]
     }
   ]
 }
+
