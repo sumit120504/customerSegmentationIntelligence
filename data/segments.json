@@ -1,0 +1,50 @@
+[
+  {
+    "segment": "Champions",
+    "size": 1218,
+    "size_percentage": 20.72,
+    "avg_recency": 26.9,
+    "avg_frequency": 19.0,
+    "avg_monetary": 10587.87,
+    "total_revenue": 12896021.43,
+    "revenue_share": 74.22,
+    "recommendation": "Reward brand advocacy with VIP tiers, exclusive early-access product drops, personalized gifting, and high-tier loyalty points to maximize customer lifetime value.",
+    "color": "#10b981"
+  },
+  {
+    "segment": "Loyal",
+    "size": 1150,
+    "size_percentage": 19.56,
+    "avg_recency": 27.1,
+    "avg_frequency": 3.1,
+    "avg_monetary": 840.87,
+    "total_revenue": 966996.94,
+    "revenue_share": 5.57,
+    "recommendation": "Upsell higher-value bundles, incentivize higher order frequency with milestone threshold discounts, and introduce referral incentives to transition them into Champions.",
+    "color": "#3b82f6"
+  },
+  {
+    "segment": "At Risk",
+    "size": 1547,
+    "size_percentage": 26.32,
+    "avg_recency": 232.6,
+    "avg_frequency": 5.0,
+    "avg_monetary": 1874.04,
+    "total_revenue": 2899144.09,
+    "revenue_share": 16.69,
+    "recommendation": "Deploy automated multi-stage win-back campaigns, deliver personalized 'We miss you' emails with time-sensitive discount codes, and run exit surveys to identify friction.",
+    "color": "#f59e0b"
+  },
+  {
+    "segment": "Lost",
+    "size": 1963,
+    "size_percentage": 33.4,
+    "avg_recency": 386.9,
+    "avg_frequency": 1.3,
+    "avg_monetary": 312.09,
+    "total_revenue": 612641.81,
+    "revenue_share": 3.53,
+    "recommendation": "Minimize costly direct ad spend; run automated periodic low-cost reactivation email drip campaigns and seasonal clearance promos to recapture interest without eroding margins.",
+    "color": "#ef4444"
+  }
+]

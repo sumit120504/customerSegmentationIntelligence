@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor Settings
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Large raw dataset files (run `python scripts/download_data.py` to fetch)
+data/*.xlsx
+data/*.zip
+data/*.parquet
+
+# Ensure exported JSON payloads are tracked by git
+!data/*.json
+!data/.gitkeep

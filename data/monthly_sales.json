@@ -1,0 +1,177 @@
+[
+  {
+    "month": "2009-12",
+    "revenue": 683504.01,
+    "orders": 1512,
+    "active_customers": 955,
+    "avg_order_value": 452.05
+  },
+  {
+    "month": "2010-01",
+    "revenue": 555802.67,
+    "orders": 1011,
+    "active_customers": 720,
+    "avg_order_value": 549.76
+  },
+  {
+    "month": "2010-02",
+    "revenue": 504558.96,
+    "orders": 1104,
+    "active_customers": 772,
+    "avg_order_value": 457.03
+  },
+  {
+    "month": "2010-03",
+    "revenue": 696978.47,
+    "orders": 1524,
+    "active_customers": 1057,
+    "avg_order_value": 457.33
+  },
+  {
+    "month": "2010-04",
+    "revenue": 591982.0,
+    "orders": 1329,
+    "active_customers": 942,
+    "avg_order_value": 445.43
+  },
+  {
+    "month": "2010-05",
+    "revenue": 597833.38,
+    "orders": 1377,
+    "active_customers": 966,
+    "avg_order_value": 434.16
+  },
+  {
+    "month": "2010-06",
+    "revenue": 636371.13,
+    "orders": 1497,
+    "active_customers": 1041,
+    "avg_order_value": 425.1
+  },
+  {
+    "month": "2010-07",
+    "revenue": 589736.17,
+    "orders": 1381,
+    "active_customers": 928,
+    "avg_order_value": 427.04
+  },
+  {
+    "month": "2010-08",
+    "revenue": 602224.6,
+    "orders": 1293,
+    "active_customers": 911,
+    "avg_order_value": 465.76
+  },
+  {
+    "month": "2010-09",
+    "revenue": 829013.95,
+    "orders": 1689,
+    "active_customers": 1145,
+    "avg_order_value": 490.83
+  },
+  {
+    "month": "2010-10",
+    "revenue": 1033112.01,
+    "orders": 2133,
+    "active_customers": 1497,
+    "avg_order_value": 484.35
+  },
+  {
+    "month": "2010-11",
+    "revenue": 1166460.02,
+    "orders": 2587,
+    "active_customers": 1607,
+    "avg_order_value": 450.89
+  },
+  {
+    "month": "2010-12",
+    "revenue": 570422.73,
+    "orders": 1400,
+    "active_customers": 885,
+    "avg_order_value": 407.44
+  },
+  {
+    "month": "2011-01",
+    "revenue": 568101.31,
+    "orders": 987,
+    "active_customers": 741,
+    "avg_order_value": 575.58
+  },
+  {
+    "month": "2011-02",
+    "revenue": 446084.92,
+    "orders": 997,
+    "active_customers": 758,
+    "avg_order_value": 447.43
+  },
+  {
+    "month": "2011-03",
+    "revenue": 594081.76,
+    "orders": 1321,
+    "active_customers": 974,
+    "avg_order_value": 449.72
+  },
+  {
+    "month": "2011-04",
+    "revenue": 468374.33,
+    "orders": 1149,
+    "active_customers": 856,
+    "avg_order_value": 407.64
+  },
+  {
+    "month": "2011-05",
+    "revenue": 677355.15,
+    "orders": 1555,
+    "active_customers": 1056,
+    "avg_order_value": 435.6
+  },
+  {
+    "month": "2011-06",
+    "revenue": 660046.05,
+    "orders": 1393,
+    "active_customers": 991,
+    "avg_order_value": 473.83
+  },
+  {
+    "month": "2011-07",
+    "revenue": 598962.9,
+    "orders": 1331,
+    "active_customers": 949,
+    "avg_order_value": 450.01
+  },
+  {
+    "month": "2011-08",
+    "revenue": 644051.04,
+    "orders": 1280,
+    "active_customers": 935,
+    "avg_order_value": 503.16
+  },
+  {
+    "month": "2011-09",
+    "revenue": 950690.2,
+    "orders": 1755,
+    "active_customers": 1266,
+    "avg_order_value": 541.7
+  },
+  {
+    "month": "2011-10",
+    "revenue": 1035642.45,
+    "orders": 1929,
+    "active_customers": 1364,
+    "avg_order_value": 536.88
+  },
+  {
+    "month": "2011-11",
+    "revenue": 1156205.61,
+    "orders": 2657,
+    "active_customers": 1664,
+    "avg_order_value": 435.15
+  },
+  {
+    "month": "2011-12",
+    "revenue": 517208.44,
+    "orders": 778,
+    "active_customers": 615,
+    "avg_order_value": 664.79
+  }
+]

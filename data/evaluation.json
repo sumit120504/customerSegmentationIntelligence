@@ -1,0 +1,41 @@
+{
+  "evaluation": [
+    {
+      "k": 2,
+      "inertia": 8542.44,
+      "silhouette_score": 0.4365
+    },
+    {
+      "k": 3,
+      "inertia": 6342.18,
+      "silhouette_score": 0.3421
+    },
+    {
+      "k": 4,
+      "inertia": 4964.35,
+      "silhouette_score": 0.361
+    },
+    {
+      "k": 5,
+      "inertia": 4178.66,
+      "silhouette_score": 0.3399
+    },
+    {
+      "k": 6,
+      "inertia": 3614.11,
+      "silhouette_score": 0.338
+    },
+    {
+      "k": 7,
+      "inertia": 3253.49,
+      "silhouette_score": 0.3105
+    },
+    {
+      "k": 8,
+      "inertia": 2940.47,
+      "silhouette_score": 0.3141
+    }
+  ],
+  "chosen_k": 4,
+  "justification": "K=4 provides the optimal balance between mathematical cohesion (inflection point on the elbow curve and high silhouette score) and actionable business interpretability, perfectly yielding Champions, Loyal, At Risk, and Lost segments."
+}

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Segmentation Dashboard | RFM & K-Means</title>
+  <meta name="description" content="Interactive e-commerce customer segmentation dashboard powered by RFM analysis, K-Means clustering, and PCA dimensionality reduction on UCI Online Retail II dataset.">
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js via high-speed global CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading RFM Segmentation Data...</div>
+  </div>
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="dashboard-container">
+      <div class="header-content">
+        <!-- Brand Section -->
+        <div class="brand-section">
+          <div class="brand-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">Customer Segmentation Intelligence</h1>
+            <div class="brand-subtitle">
+              <span>RFM Analysis &amp; K-Means Clustering</span>
+              <span>•</span>
+              <span class="badge-pill badge-dataset">UCI Online Retail II</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="header-controls">
+          <!-- Customer ID Search -->
+          <div class="search-wrapper">
+            <div class="search-input-group">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="customerSearchInput" class="search-input" placeholder="Search Customer ID (e.g. 12346)..." autocomplete="off">
+              <button id="searchClearBtn" class="search-clear-btn" title="Clear search">✕</button>
+            </div>
+            <div id="searchSuggestions" class="search-suggestions"></div>
+          </div>
+
+          <!-- Segment Filter Dropdown -->
+          <select id="segmentFilterSelect" class="filter-select" aria-label="Filter by Customer Segment">
+            <option value="All">All Segments (4)</option>
+            <option value="Champions">Champions</option>
+            <option value="Loyal">Loyal</option>
+            <option value="At Risk">At Risk</option>
+            <option value="Lost">Lost</option>
+          </select>
+
+          <!-- CSV Export Button -->
+          <button id="btnExportCSV" class="btn-action" title="Export current view to CSV">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export CSV
+          </button>
+
+          <!-- Dark/Light Mode Toggle -->
+          <button id="btnThemeToggle" class="btn-icon" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <span id="themeIcon"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="dashboard-container">
+
+    <!-- KPI Metric Cards -->
+    <section class="kpi-section" aria-label="High-level performance indicators">
+      <div class="kpi-grid">
+        <!-- Card 1: Total Customers -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Total Customers</span>
+            <div class="kpi-icon-wrap" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiTotalCustomers">--</div>
+          <div class="kpi-footer">Analyzed via clean transactions</div>
+        </div>
+
+        <!-- Card 2: Total Revenue -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Cumulative Spend</span>
+            <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiTotalRevenue">--</div>
+          <div class="kpi-footer">Across 2009–2011 period</div>
+        </div>
+
+        <!-- Card 3: Avg Customer Spend -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Avg Customer Spend</span>
+            <div class="kpi-icon-wrap" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiAvgSpend">--</div>
+          <div class="kpi-footer">Customer lifetime value average</div>
+        </div>
+
+        <!-- Card 4: Average Recency -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Average Recency</span>
+            <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiAvgRecency">--</div>
+          <div class="kpi-footer">Days since last transaction</div>
+        </div>
+
+        <!-- Card 5: Top Segment Share -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Champions Rev Share</span>
+            <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpiTopSegmentShare">--</div>
+          <div class="kpi-footer">Pareto revenue concentration</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Segment Strategy Cards -->
+    <section aria-label="Segment strategic profiles">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Customer Segment Archetypes &amp; Recommendations
+          </h2>
+          <div class="section-subtitle">Click any card to filter all dashboard analytics and customer records</div>
+        </div>
+      </div>
+      <div class="segment-grid" id="segmentCardsContainer">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Chart Grid -->
+    <section aria-label="Analytics visualizations">
+      <div class="chart-grid">
+        <!-- Chart 1: PCA Cluster Scatter Plot -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-title-wrap">
+              <h3 class="chart-title">Customer Clusters (2D PCA Projection)</h3>
+              <span class="chart-subtitle">Standardized log(RFM) projected onto principal components (95.2% variance captured)</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="scatterChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Segment Size Distribution (Doughnut) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-title-wrap">
+              <h3 class="chart-title">Customer Base Distribution</h3>
+              <span class="chart-subtitle">Proportion of total customers across the 4 segments</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="doughnutChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Revenue Share & Avg Spend by Segment (Bar Chart) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-title-wrap">
+              <h3 class="chart-title">Revenue Contribution &amp; Average Spend</h3>
+              <span class="chart-subtitle">Comparing total segment revenue vs average spend per customer</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenueBarChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Monthly Sales Trend (Line Chart) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="chart-title-wrap">
+              <h3 class="chart-title">Monthly Revenue Trend (2009–2011)</h3>
+              <span class="chart-subtitle">Total store transaction volume and seasonal revenue fluctuations</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="monthlySalesChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Intelligence Table -->
+    <section class="table-section" aria-label="Customer records directory">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            Customer Intelligence Explorer
+          </h2>
+          <div class="section-subtitle">Browse, sort, and inspect individual customer RFM metrics and assigned segments</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <!-- Table Toolbar -->
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">
+            <span class="table-info-text" id="tableInfoText">Loading customers...</span>
+          </div>
+          <div class="page-size-selector">
+            <label for="pageSizeSelect">Show per page:</label>
+            <select id="pageSizeSelect" class="page-size-select">
+              <option value="10">10</option>
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table Responsive Container -->
+        <div class="table-responsive">
+          <table class="custom-table" id="customerTable">
+            <thead>
+              <tr>
+                <th class="sortable" data-col="customer_id">Customer ID <span class="sort-indicator">↕</span></th>
+                <th class="sortable" data-col="segment">Segment <span class="sort-indicator">↕</span></th>
+                <th class="sortable" data-col="recency">Recency <span class="sort-indicator">↕</span></th>
+                <th class="sortable" data-col="frequency">Frequency <span class="sort-indicator">↕</span></th>
+                <th class="sortable sorted-desc" data-col="monetary">Monetary (£) <span class="sort-indicator">↓</span></th>
+                <th>PCA (PC1, PC2)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customerTableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Bar -->
+        <div class="pagination-container">
+          <div class="pagination-controls" id="paginationControls">
+            <!-- Dynamically populated page buttons -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Customer Profile Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalCustomerId">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title" id="modalCustomerId">#--</span>
+          <span id="modalCustomerBadge" class="badge-segment">Segment</span>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">Customer RFM Profile</div>
+        <div class="modal-rfm-grid">
+          <div class="modal-metric-card">
+            <div class="modal-metric-label">Recency</div>
+            <div class="modal-metric-value" id="modalRecencyVal">--</div>
+            <div class="modal-metric-diff" id="modalRecencyDiff">--</div>
+          </div>
+          <div class="modal-metric-card">
+            <div class="modal-metric-label">Frequency</div>
+            <div class="modal-metric-value" id="modalFrequencyVal">--</div>
+            <div class="modal-metric-diff" id="modalFrequencyDiff">--</div>
+          </div>
+          <div class="modal-metric-card">
+            <div class="modal-metric-label">Total Spend</div>
+            <div class="modal-metric-value" id="modalMonetaryVal">--</div>
+            <div class="modal-metric-diff" id="modalMonetaryDiff">--</div>
+          </div>
+        </div>
+
+        <div class="modal-section-title">Recommended Marketing Strategy</div>
+        <div class="modal-recommendation-box" id="modalRecommendationText">
+          Strategy guidance will load here.
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); padding: 0.5rem 0;">
+          <span>PCA Dimensional Coordinates:</span>
+          <span id="modalPcaCoords" style="font-family: monospace; font-weight: 600;">--</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-action" onclick="window.__appInstance.closeCustomerModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
